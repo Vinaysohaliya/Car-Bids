@@ -14,14 +14,36 @@ model User {
   password String
   role     UserRole
   vehicles Vehicle[] // Each user can own multiple vehicles
+  Bid      Bid[]
 }
 
 model Vehicle {
   registrationNumber String
-  id                 String @id @default(auto()) @map("_id") @db.ObjectId
+  id                 String    @id @default(auto()) @map("_id") @db.ObjectId
   description        String
-  userId             String @db.ObjectId
-  user               User   @relation(fields: [userId], references: [id])
+  name               String
+  userId             String    @db.ObjectId
+  user               User      @relation(fields: [userId], references: [id])
+  Auction            Auction[]
+}
+
+model Auction {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  vehicleId String   @db.ObjectId
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id])
+  duration  Int      @default(7)
+  startTime DateTime @default(now())
+  endTime   DateTime @map("end_time")
+  bids      Bid[]
+}
+
+model Bid {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  amount    Float
+  bidderId  String  @db.ObjectId
+  bidder    User    @relation(fields: [bidderId], references: [id])
+  auctionId String  @db.ObjectId
+  auction   Auction @relation(fields: [auctionId], references: [id])
 }
 
 enum UserRole {

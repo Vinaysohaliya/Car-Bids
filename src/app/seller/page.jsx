@@ -2,11 +2,13 @@
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
+import Search from '../components/Search';
 
 const SubmitVehicleForm = () => {
   const [formData, setFormData] = useState({
     registrationNumber: '',
     description: '',
+    name:''
   });
 
   const { data: session } = useSession();
@@ -44,6 +46,21 @@ const SubmitVehicleForm = () => {
       onSubmit={handleSubmit}
       className="max-w-md mx-auto mt-8 p-4 bg-gray-100 rounded-lg shadow-md"
     >
+    <Search/>
+      <div className="mb-4">
+        <label htmlFor="name" className="block text-gray-700 font-semibold">
+        Name:
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+          className="mt-1 p-2 w-full border text-gray-700 rounded-md"
+        />
+      </div>
       <div className="mb-4">
         <label htmlFor="registrationNumber" className="block text-gray-700 font-semibold">
           Registration Number:

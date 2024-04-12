@@ -27,7 +27,8 @@ export const authOptions = {
                     return {
                         id: existingUser.id.toString(),
                         name: existingUser.name,
-                        email: existingUser.number
+                        email: existingUser.number,
+                        role:existingUser.role,
                     }
                 }
                 return null;
@@ -39,12 +40,14 @@ export const authOptions = {
         jwt: async ({ user, token }) => {
         if (user) {
             token.uid = user.id;
+            token.role=user.role
         }
         return token;
         },
-      session: ({ session, token, user }) => {
+      session: ({ session, token}) => {
           if (session.user) {
               session.user.id = token.uid
+              session.user.role=token.role
           }
           return session
       }

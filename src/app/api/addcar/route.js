@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server'; // Corrected import statement
+import { NextResponse } from 'next/server'; 
 import prisma from '../config/prisma';
 
 export async function POST(req) {
-    const { registrationNumber, description, userId } = await req.json();
+    const { registrationNumber, description, userId,name } = await req.json();
 
     const vehicle = await prisma.vehicle.findFirst({
         where: {
@@ -20,6 +20,8 @@ export async function POST(req) {
                 registrationNumber,
                 description,
                 userId,
+                name
+                
             }
         });
 
